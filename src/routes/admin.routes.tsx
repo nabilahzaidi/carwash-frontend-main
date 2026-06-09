@@ -1,4 +1,5 @@
 import AdminDashboard from '@/pages/(Backend)/(Admin)/AdminDashboard';
+import CustomerEnquiries from '@/pages/(Backend)/(Admin)/CustomerEnquiries';
 import RecentBookings from '@/pages/(Backend)/(Admin)/RecentBookings';
 import ServiceManagement from '@/pages/(Backend)/(Admin)/ServiceManagement';
 import SlotManagement from '@/pages/(Backend)/(Admin)/SlotManagement';
@@ -26,7 +27,11 @@ export const adminPaths = [
     path: 'slot-management',
     element: <SlotManagement />,
   },
-
+  {
+    name: 'Customer enquiries',
+    path: 'customer-enquiries',
+    element: <CustomerEnquiries />,
+  },
   {
     name: 'User management',
     children: [

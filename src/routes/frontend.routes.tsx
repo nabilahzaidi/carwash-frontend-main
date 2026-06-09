@@ -2,6 +2,7 @@
 
 import Booking from '@/pages/(Frontend)/(booking)/Booking';
 import Compare from '@/pages/(Frontend)/(compare)/Compare';
+import CustomerSupport from '@/pages/(Frontend)/(support)/CustomerSupport';
 import HomePage from '@/pages/(Frontend)/(home)/HomePage';
 import Reviews from '@/pages/(Frontend)/(reviews)/Reviews';
 import ServiceDetails from '@/pages/(Frontend)/(services)/ServiceDetails';
@@ -33,6 +34,10 @@ export const frontendPageRoutes = [
       {
         path:"compare",
         element:<Compare/>
+      },
+      {
+        path:"support",
+        element:<CustomerSupport/>
       },
     ],
   },

@@ -52,6 +52,10 @@ const Navbar = () => {
       menuLabel:"Compare",
       menuPath:'/compare'
     },
+    {
+      menuLabel:"Support",
+      menuPath:'/support'
+    },
      {
     menuLabel:"Dashboard",
     menuPath:`/${user?.role}/dashboard`
