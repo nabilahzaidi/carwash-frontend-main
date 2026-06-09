@@ -43,28 +43,28 @@
 
   .dark {
     --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --foreground: 0 0% 100%;
 
     --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card-foreground: 0 0% 100%;
 
     --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover-foreground: 0 0% 100%;
 
     --primary: #012533;
-    --primary-foreground: #f9f9f9;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: linear-gradient(166deg, rgba(1,37,51,1) 15%, rgba(58,109,129,1) 100%);
-    --secondary-foreground: 210 40% 98%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted-foreground: 0 0% 100%;
 
     --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
@@ -76,12 +76,13 @@
   * {
     @apply border-border;
   }
+  html {
+    min-height: 100%;
+  }
   body {
-    /* @apply text-foreground; */
-    /* background: #012533; */
-    /* background: #2F3E10; */
-    background: radial-gradient(at center, #f3e7e9, #e3eeff);
-    /* background: radial-gradient(at center, #012533, #010e13); */
+    color: hsl(var(--foreground));
+    background: hsl(var(--background));
+    min-height: 100vh;
     font-family: "Jost", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
