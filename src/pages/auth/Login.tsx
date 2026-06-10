@@ -18,23 +18,30 @@ const Login = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    const toastId = toast.loading('Loggin in');
+    const toastId = toast.loading('Logging in');
 
     try {
       const res = await login(data).unwrap();
+      const { token, data: responseData } = res as { token: string; data?: any };
 
-      const user = verifyToken(res.token) as TUser;
-      dispatch(setUser({ user: user, token: res.token }));
+      if (!token) {
+        throw new Error('No token received');
+      }
+
+      const user = verifyToken(token) as TUser;
+      dispatch(setUser({ user, token }));
       toast.success('Logged in', { id: toastId, duration: 2000 });
 
-    
-      if (res.data.needsPasswordChange) {
-        // navigate('/change-password')
+      if (responseData?.needsPasswordChange) {
+        navigate('/change-password');
       } else {
         navigate('/');
       }
     } catch (err) {
-      toast.error(`Something went wrong`, { id: toastId, duration: 2000 });
+      toast.error('Login failed. Check your email and password.', {
+        id: toastId,
+        duration: 3000,
+      });
     }
   };
 

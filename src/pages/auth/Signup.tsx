@@ -24,17 +24,20 @@ const Signup = () => {
     const onSubmit = async (data:any)=>{
         const toastId = toast.loading('Sign up in process');
 
-        const userInfo = {...data,role:"user"}
-      
-        try{
-            const res = await signup(userInfo)
-            if(res.data.success){
-                toast.success(res.data.message,{id:toastId,duration:2000})
-                navigate('/login');
-            }
-        }catch (err) {
-      toast.error(`Something went wrong`, { id: toastId, duration: 2000 });
-    }
+        const userInfo = { ...data, role: 'user' };
+
+        try {
+            const res = await signup(userInfo).unwrap();
+            const message = res?.message || 'Signup successful';
+
+            toast.success(message, { id: toastId, duration: 2000 });
+            navigate('/login');
+        } catch (err) {
+            toast.error('Signup failed. Please check your details.', {
+                id: toastId,
+                duration: 3000,
+            });
+        }
         
         
         

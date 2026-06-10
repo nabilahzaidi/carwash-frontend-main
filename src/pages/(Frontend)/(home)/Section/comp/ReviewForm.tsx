@@ -20,7 +20,10 @@ const ReviewForm = () => {
   if (token) {
     user = verifyToken(token);
   }
-  const { data: userData, isLoading } = useGetUserinfoQuery(user?.userEmail);
+  const userEmail = user?.userEmail || user?.email;
+  const { data: userData, isLoading } = useGetUserinfoQuery(userEmail, {
+    skip: !userEmail,
+  });
   const [rating, setRating] = useState(3);
 
   if (isLoading) {

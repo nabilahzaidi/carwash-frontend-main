@@ -17,12 +17,18 @@ const Profile = () => {
     const token = useAppSelector(useCurrentToken);
     let user;
     if(token){
-        user= verifyToken(token);
+        user = verifyToken(token);
     }
-    
-    
-    const { data: userData, isLoading } = useGetUserinfoQuery(user?.userEmail);
-  
+
+    const userEmail = user?.userEmail || user?.email;
+    const { data: userData, isLoading } = useGetUserinfoQuery(userEmail, {
+      skip: !userEmail,
+    });
+
+    if (!userEmail) {
+      return <div>Please log in to view your profile.</div>;
+    }
+
     if (isLoading) {
       return <><Loading/></>;
     }

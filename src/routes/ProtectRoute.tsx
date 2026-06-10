@@ -26,7 +26,7 @@ const dispatch = useAppDispatch()
     }
 
     if(!token){
-        <Navigate to='/login' replace={true}/>
+        return <Navigate to='/login' replace={true}/>
     }
 
     return children;

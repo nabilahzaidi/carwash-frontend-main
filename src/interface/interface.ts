@@ -34,8 +34,9 @@ export interface TUserPath{
   };
 
   export interface CustomJwtPayload {
-    role?:string;
-    userEmail?:string;
+    role?: string;
+    userEmail?: string;
+    email?: string;
   }
 
   export type TReviews = {

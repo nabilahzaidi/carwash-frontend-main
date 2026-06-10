@@ -17,9 +17,12 @@ interface IHoverProfileMenu{
 
 const HoverProfileMenu: React.FC<IHoverProfileMenu> = ({user}) => {
 
-    const dispatch = useAppDispatch()
- 
-    const { data: userData, isLoading } = useGetUserinfoQuery(user?.userEmail);
+    const dispatch = useAppDispatch();
+    const userEmail = user?.userEmail || user?.email;
+
+    const { data: userData, isLoading } = useGetUserinfoQuery(userEmail, {
+      skip: !userEmail,
+    });
 
     if (isLoading) {
       return <><Loading/></>;

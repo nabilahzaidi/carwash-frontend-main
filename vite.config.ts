@@ -12,5 +12,12 @@ export default defineConfig({
   server: {
     port: 5170,
     strictPort: true, // Supaya dia tak melompat ke port lain kalau 5170 tengah sibuk
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   }
 })
