@@ -57,7 +57,7 @@ const Compare = () => {
           </td>
           <td className="p-4 text-left text-sm text-gray-700 block md:table-cell">{service.serviceLevel}</td>
           <td className="p-4 text-left text-sm text-gray-700 block md:table-cell">{service.duration} Minute</td>
-          <td className="p-4 text-left text-sm text-gray-700 block md:table-cell">{service.price}৳ </td>
+          <td className="p-4 text-left text-sm text-gray-700 block md:table-cell">{service.price} RM</td>
           <td className="p-4 text-left text-sm text-gray-700 block md:table-cell">
             <button onClick={()=>dispatch(removeCompareServices(service._id))}><Delete/></button>
           </td>

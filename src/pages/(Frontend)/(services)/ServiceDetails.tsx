@@ -100,7 +100,7 @@ const ServiceDetails = () => {
             <h2 className="text-xl font-bold">
               Duration: {service?.duration} Minute
             </h2>
-            <h2 className="text-2xl font-bold">Price: {service?.price}৳ </h2>
+            <h2 className="text-2xl font-bold">Price: {service?.price} RM </h2>
             <p>
               <span>Details: </span>
               {service.description}
@@ -177,7 +177,7 @@ const ServiceDetails = () => {
                     </div>
                     <div className="flex justify-between border">
                       <div>
-                        <p>Price: {service.price}৳</p>
+                        <p>Price: {service.price} RM</p>
                       </div>
                       {slot.isBooked === 'booked' ? (
                         <Button disabled>Already Booked</Button>

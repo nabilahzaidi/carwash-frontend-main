@@ -215,7 +215,7 @@ const Services = () => {
                       </p>
                       <div className="py-4 text-right  text-white">
                         <h3 className="text-[14px] font-bold">{service.name}</h3>
-                        <p className="xl:text-xl">{service.price}৳</p>
+                        <p className="xl:text-xl">{service.price} RM</p>
                         
                       </div>
                     </div>

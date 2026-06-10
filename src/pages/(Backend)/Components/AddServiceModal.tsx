@@ -44,14 +44,27 @@ const AddNewService: FC<IModalProps> = ({ isOpen, onClose }) => {
 
 
   const handleEditDataSubmit = async (data: any) => {
-    const toastId = toast.loading('Service Creating....')
-    
-    const res = await addService(data)
-    if (res?.data?.success) {
-      toast.success(res?.data?.message, { id: toastId, duration: 2000 });;
-      onClose()
-    }else{
-      toast.error(res?.data?.message,{ id: toastId, duration: 2000 })
+    const toastId = toast.loading('Service Creating....');
+    const payload = {
+      ...data,
+      price: Number(data.price),
+      duration: Number(data.duration),
+      serviceLevel: data.serviceLevel || 'Standard',
+    };
+
+    try {
+      const res = await addService(payload).unwrap();
+      toast.success(res.message || 'Service created successfully', {
+        id: toastId,
+        duration: 2000,
+      });
+      onClose();
+    } catch (err: any) {
+      const errorMessage = err?.data?.message || err?.error || 'Service creation failed';
+      toast.error(errorMessage, {
+        id: toastId,
+        duration: 3000,
+      });
     }
   };
 
@@ -112,7 +125,7 @@ const AddNewService: FC<IModalProps> = ({ isOpen, onClose }) => {
          </div>
          <CRTextarea type="text" label="Description" name="description" />
  
-         <CARButton text="Add New Service" />
+         <CARButton text="Add New Service" htmlType="submit" />
        </CRForm>
   
        </div>
