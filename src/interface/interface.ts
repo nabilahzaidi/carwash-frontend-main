@@ -9,6 +9,7 @@ export interface IServices{
     description:string;
     price:number;
     duration:number;
+    vehicleType: string;
     isDeleted: boolean;
 }
 
