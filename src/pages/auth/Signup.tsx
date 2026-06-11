@@ -32,8 +32,15 @@ const Signup = () => {
 
             toast.success(message, { id: toastId, duration: 2000 });
             navigate('/login');
-        } catch (err) {
-            toast.error('Signup failed. Please check your details.', {
+        } catch (err: any) {
+            // Try to extract a helpful error message from the RTK Query error
+            const serverMessage = err?.data?.message || err?.message || err?.error;
+            const message = serverMessage || 'Signup failed. Please check your details.';
+            // Log for debugging
+            // eslint-disable-next-line no-console
+            console.error('Signup error:', err);
+
+            toast.error(message, {
                 id: toastId,
                 duration: 3000,
             });
@@ -63,7 +70,7 @@ const Signup = () => {
     <CRInput type='text' name='address' label='Full Address' />
     <CRInput type='password' name='password' label='Password' />
     
-    <CARButton className='text-xl px-4 p-1.5' text='Sign Up'/>
+    <CARButton htmlType='submit' className='text-xl px-4 p-1.5' text='Sign Up'/>
 </CRForm>
 
              
