@@ -1,5 +1,6 @@
 import CRForm from '@/components/form/CRForm';
 import CRInput from '@/components/form/CRInput';
+import Empty from '@/components/shared/Empty';
 import Loading from '@/components/shared/Loading';
 import PageBanner from '@/components/shared/PageBanner';
 import { Button } from '@/components/ui/button';
@@ -19,14 +20,17 @@ import { useAppSelector } from '@/redux/hook';
 import { verifyToken } from '@/utils/verifyToken';
 import { Image } from 'antd';
 import { Trash } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useState } from 'react';
 
 const Booking = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  const bookedData = location.state;
-  const bookedService = bookedData.data.service;
-  const bookedSlot = bookedData.data.slot;
+  const initialBookingData = location.state?.data ?? null;
+  const [selectedBooking, setSelectedBooking] = useState(initialBookingData);
+  const bookedService = selectedBooking?.service;
+  const bookedSlot = selectedBooking?.slot;
   const [addBooking] = useAddBookingMutation();
 
   const token = useAppSelector(useCurrentToken);
@@ -45,24 +49,59 @@ const Booking = () => {
   }
   const userInfo = userData?.data;
 
-  const handleBookingSubmit = async () => {
+  const handleBookingSubmit = async (data: any) => {
+    if (!bookedService || !bookedSlot) {
+      toast.error('No service or slot selected. Please choose a booking slot first.');
+      return;
+    }
+
     const bookings = {
       serviceId: bookedService._id,
       slotId: bookedSlot._id,
-      vehicleType: 'car',
-      vehicleBrand: 'Tata',
-      vehicleModel: 'Camry',
-      manufacturingYear: 2024,
-      registrationPlate: 'ABC123',
+      vehicleType: data.vehicleType || 'car',
+      vehicleBrand: data.vehicleBrand || 'Tata',
+      vehicleModel: data.vehicleModel || 'Camry',
+      manufacturingYear: data.manufacturingYear || 2024,
+      registrationPlate: data.registrationPlate || 'ABC123',
+      customerName: data.name || userInfo?.name,
+      customerEmail: data.email || userInfo?.email,
+      customerPhone: data.phone || userInfo?.phone,
     };
-  
 
-    const res = await addBooking(bookings);
-    if (res.data.success) {
-      toast.success(res.data.message);
-      window.location.href = res.data.data.payment_url;
+    try {
+      const res = await addBooking(bookings).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+        if (res.data?.payment_url) {
+          window.location.href = res.data.payment_url;
+        } else {
+          toast.error('Payment URL not returned from the server.');
+        }
+      } else {
+        toast.error(res.message || 'Payment initialization failed.');
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || err?.message || 'Booking failed.');
     }
   };
+
+  if (!selectedBooking) {
+    return (
+      <div>
+        <PageBanner pageName={'Booking Page'} />
+        <div className="2xl:p-20 p-4">
+          <div className="container rounded-2xl mx-auto shadow-2xl bg-primary/5 p-8 text-center">
+            <Empty text="No booking selected. Please choose a service slot first." />
+            <div className="mt-6">
+              <Button onClick={() => navigate('/services')}>
+                Choose a Service
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -90,14 +129,24 @@ const Booking = () => {
                   <TableBody>
                     <TableRow>
                       <TableCell className="font-medium">
-                        <Trash />
+                        <button
+                          type="button"
+                          className="rounded-full p-2 hover:bg-slate-100"
+                          onClick={() => {
+                            setSelectedBooking(null);
+                            toast.success('Booking selection removed.');
+                          }}
+                          aria-label="Remove booked service"
+                        >
+                          <Trash />
+                        </button>
                       </TableCell>
                       <TableCell className="font-medium">INV001</TableCell>
                       <TableCell className="flex gap-2">
                         <Image
                           className="max-w-32 rounded-xl"
                           src={bookedService?.images}
-                          alt=""
+                          alt={bookedService?.name || 'Service image'}
                         />
                         <div>
                           <Link to={`/services/${bookedService?._id}`}>

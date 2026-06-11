@@ -111,7 +111,7 @@ const CreateSlots: FC<IModalProps> = ({ isOpen, onClose }) => {
               />
             </div>
 
-            <CARButton text="Create New Slot" />
+            <CARButton text="Create New Slot" htmlType="submit" />
           </CRForm>
 
           <div>

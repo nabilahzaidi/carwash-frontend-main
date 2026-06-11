@@ -1,5 +1,6 @@
 import { RootState } from '@/redux/store';
 import { createSlice } from '@reduxjs/toolkit';
+import { verifyToken } from '@/utils/verifyToken';
 
 export type TUser = {
   userEmail?: string;
@@ -14,9 +15,17 @@ type TAuthState = {
   token: null | string;
 };
 
+// Restore token from localStorage so it survives full-page navigations
+let tokenFromStorage: string | null = null;
+try {
+  tokenFromStorage = localStorage.getItem('token');
+} catch (err) {
+  tokenFromStorage = null;
+}
+
 const initialState: TAuthState = {
-  user: null,
-  token: null,
+  user: tokenFromStorage ? (verifyToken(tokenFromStorage) as TUser) : null,
+  token: tokenFromStorage,
 };
 
 const authSlice = createSlice({
@@ -27,15 +36,25 @@ const authSlice = createSlice({
       const { user, token } = action.payload;
       state.user = user;
       state.token = token;
+      try {
+        if (token) localStorage.setItem('token', token);
+      } catch (err) {
+        // ignore localStorage errors
+      }
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
+      try {
+        localStorage.removeItem('token');
+      } catch (err) {
+        // ignore
+      }
     },
   },
 });
 
-export const { setUser,logout } = authSlice.actions;
+export const { setUser, logout } = authSlice.actions;
 
 export default authSlice.reducer;
 
