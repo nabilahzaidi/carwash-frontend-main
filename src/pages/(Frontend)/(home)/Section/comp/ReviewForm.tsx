@@ -84,7 +84,7 @@ const ReviewForm = () => {
             name={'profileImg'}
           />
           <CRTextarea type="text" name="feedback" />
-          <CARButton text="Give your feedback" />
+          <CARButton htmlType="submit" text="Give your feedback" />
         </CRForm>
       </div>
     </div>
