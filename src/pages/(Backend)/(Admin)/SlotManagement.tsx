@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom';
 import {
   useGetAllServiceSlotsQuery,
   useUpdateSlotsMutation,
+  useDeleteSlotMutation,
 } from '@/redux/features/services/slotsApi';
 import { toast } from 'sonner';
 import CreateSlots from '../Components/CreateSlots';
@@ -42,6 +43,7 @@ const SlotManagement = () => {
   const { data: serviceSlots, isLoading } =
     useGetAllServiceSlotsQuery(filters);
   const [updateSlots] = useUpdateSlotsMutation();
+  const [deleteSlot] = useDeleteSlotMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setAddModal] = useState(false);
   const [editServiceData, setServiceData] = useState(null);
@@ -81,6 +83,21 @@ const SlotManagement = () => {
     }
 
     setSlotStatus(!slotStatus);
+  };
+
+  const handleDeleteSlot = async (slotId: string) => {
+    const toastId = toast.loading('Deleting slot...');
+    try {
+      const res = await deleteSlot(slotId);
+      if (res.data?.success) {
+        toast.success(`${res.data.message}`, { id: toastId, duration: 2000 });
+        setSlotStatus(!slotStatus);
+      } else {
+        toast.error('Failed to delete slot', { id: toastId, duration: 2000 });
+      }
+    } catch (error) {
+      toast.error('Error deleting slot', { id: toastId, duration: 2000 });
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -186,7 +203,9 @@ const SlotManagement = () => {
                       <DropdownMenuItem onClick={() => openModal(slots)}>
                         update Slot
                       </DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDeleteSlot(slots._id)}>
+                        Delete
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

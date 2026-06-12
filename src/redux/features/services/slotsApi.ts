@@ -36,9 +36,9 @@ const slotsApi = baseApi.injectEndpoints({
     }),
 
     // delete slots api
-    deleteService: builder.mutation({
+    deleteSlot: builder.mutation({
       query: (id) => ({
-        url: `/services/${id}`,
+        url: `/slots/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['slots'],
@@ -50,4 +50,5 @@ export const {
   useCreateServiceSlotsMutation,
   useGetAllServiceSlotsQuery,
   useUpdateSlotsMutation,
+  useDeleteSlotMutation,
 } = slotsApi;
