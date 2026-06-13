@@ -33,8 +33,28 @@ const ReviewForm = () => {
   const RatingComponent = Rating as any;
 
   const handleReviewSubmit = async (data: any) => {
+    if (!userData?.data?._id) {
+      toast.error('Please sign in to give feedback');
+      return;
+    }
+
+    // check token expiry and avoid calling API when token is expired
+    if (token) {
+      try {
+        const decoded: any = verifyToken(token);
+        if (decoded?.exp && decoded.exp * 1000 < Date.now()) {
+          toast.error('Session expired — please sign in again');
+          return;
+        }
+      } catch (e) {
+        // if token can't be decoded, avoid calling API
+        toast.error('Invalid session — please sign in again');
+        return;
+      }
+    }
+
     const ratingData = {
-      user: userData?.data?._id,
+      user: userData.data._id,
       feedback: data.feedback,
       rating: rating,
       profileImg:
@@ -42,10 +62,33 @@ const ReviewForm = () => {
         'https://cdn3.pixelcut.app/1/3/profile_picture_1728ecf2bd.jpg',
     };
 
-    const res = await addReview(ratingData);
+    try {
+      if (import.meta.env.DEV) {
+        // debug info to help investigate 401/refresh failures during development
+        try {
+          // eslint-disable-next-line no-console
+          console.debug('Review submit debug', {
+            token,
+            userId: userData?.data?._id,
+            ratingData,
+            decoded: token ? verifyToken(token) : null,
+          });
+        } catch (e) {
+          // ignore
+        }
+      }
 
-    if (res?.data?.success) {
-      toast('Thanks for give feedback!');
+      const res = await addReview(ratingData).unwrap();
+
+      if (res?.success) {
+        toast.success('Thanks for your feedback!');
+        setRating(3);
+      } else {
+        toast.error(res?.message || 'Failed to submit review');
+      }
+    } catch (err: any) {
+      const message = err?.data?.message || err?.error || 'Failed to submit review';
+      toast.error(message);
     }
   };
   return (

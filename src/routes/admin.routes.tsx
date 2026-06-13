@@ -13,7 +13,7 @@ export const adminPaths = [
     element: <AdminDashboard />,
   },
   {
-    name: 'Recent Booking',
+    name: 'Booking',
     path: 'bookings',
     element: <RecentBookings />,
   },

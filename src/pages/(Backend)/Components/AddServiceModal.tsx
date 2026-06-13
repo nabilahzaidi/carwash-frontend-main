@@ -36,30 +36,6 @@ const serviceLevel = [
   },
 ];
 
-const vehicleTypes = [
-  {
-    value: 'Small Car',
-    label: 'Small Car',
-  },
-  {
-    value: 'Medium Car',
-    label: 'Medium Car',
-  },
-  {
-    value: 'SUV',
-    label: 'SUV',
-  },
-  {
-    value: 'MPV',
-    label: 'MPV',
-  },
-  {
-    value: 'Van/Truck',
-    label: 'Van/Truck',
-  },
-];
-
-
 const AddNewService: FC<IModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
    const [addService]= useAddServiceMutation()
@@ -127,13 +103,6 @@ const AddNewService: FC<IModalProps> = ({ isOpen, onClose }) => {
              label="Category"
              name="serviceLevel"
              options={serviceLevel}
-           />
-
-           <CRSelect
-             className="w-full sticky z-50"
-             label="Vehicle Type"
-             name="vehicleType"
-             options={vehicleTypes}
            />
            {/* <Image className="max-w-40 rounded-md" src={data?.images}/> */}
          </div>

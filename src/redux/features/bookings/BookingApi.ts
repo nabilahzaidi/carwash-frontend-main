@@ -38,6 +38,15 @@ const bookingApi = baseApi.injectEndpoints({
       invalidatesTags: ['bookings'],
     }),
 
+    // quick payment api 
+    initiateQuickPayment: builder.mutation({
+      query: (data) => ({
+        url: '/payment/initiate',
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
     // updateBooking api 
     updateBooking: builder.mutation({
       query: (data) => ({
@@ -65,5 +74,6 @@ useDeleteBookingMutation,
 useGetBookingsQuery,
 useGetSingleBookingQuery,
 useUpdateBookingMutation,
-useGetMyBookingsQuery
+useGetMyBookingsQuery,
+useInitiateQuickPaymentMutation
 } = bookingApi;

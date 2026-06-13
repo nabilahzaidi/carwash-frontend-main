@@ -12,7 +12,7 @@ import {
 import { Image } from 'antd';
 import Search from '@/components/ui/Search';
 
-import { useGetBookingsQuery } from '@/redux/features/bookings/BookingApi';
+import { useGetBookingsQuery, useUpdateBookingMutation } from '@/redux/features/bookings/BookingApi';
 import { Link } from 'react-router-dom';
 import Loading from '@/components/shared/Loading';
 
@@ -28,6 +28,7 @@ const UserBookings = () => {
   };
   const [filters, setFilters] = useState<TUserFilterValue>(initialFilterValues);
   const { data: bookingDatas, isLoading } = useGetBookingsQuery(filters);
+  const [updateBooking] = useUpdateBookingMutation();
 
   if (isLoading) {
     return <><Loading/></>;
@@ -64,8 +65,9 @@ const UserBookings = () => {
                 <TableHead className="w-[100px]">#</TableHead>
                 <TableHead >Created at</TableHead>
                 <TableHead>User Name</TableHead>
-                <TableHead>Contact Info</TableHead>
-                <TableHead className="text-right">Service Title</TableHead>
+                      <TableHead>Contact Info</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Service Title</TableHead>
               </TableRow>
             }
           </TableHeader>
@@ -93,8 +95,29 @@ const UserBookings = () => {
                   <p className="text-sm">{usData.customer.email}</p>
                   <p className="text-sm">0{usData.customer.phone}</p>
                 </TableCell>
+                <TableCell className="font-medium">
+                  <span className={`px-2 py-1 rounded ${usData.status === 'Approved' ? 'bg-green-100 text-green-800' : usData.status === 'Rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    {usData.status || 'Pending'}
+                  </span>
+                </TableCell>
                 <TableCell className="text-right">
                   <Link to={`/services/${usData.service._id}`}>{usData.service.name}</Link>
+                  {usData.status === 'Pending' && (
+                    <div className="mt-2 flex gap-2 justify-end">
+                      <button
+                        onClick={() => updateBooking({ id: usData._id, status: 'Approved' })}
+                        className="px-3 py-1 bg-green-500 text-white rounded"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => updateBooking({ id: usData._id, status: 'Rejected' })}
+                        className="px-3 py-1 bg-red-500 text-white rounded"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  )}
                 </TableCell>
                 
               </TableRow>

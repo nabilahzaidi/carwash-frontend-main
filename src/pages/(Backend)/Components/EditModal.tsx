@@ -19,29 +19,6 @@ import { toast } from 'sonner';
 
 
 
-const vehicleTypes = [
-  {
-    value: 'Small Car',
-    label: 'Small Car',
-  },
-  {
-    value: 'Medium Car',
-    label: 'Medium Car',
-  },
-  {
-    value: 'SUV',
-    label: 'SUV',
-  },
-  {
-    value: 'MPV',
-    label: 'MPV',
-  },
-  {
-    value: 'Van/Truck',
-    label: 'Van/Truck',
-  },
-];
-
 const serviceLevel = [
   {
     value: 'Standard',
@@ -141,13 +118,6 @@ const EditModal:FC<IModalProps> = ({ isOpen, onClose, data }) => {
                         options={serviceLevel}
                         defaultValue={data?.serviceLevel}
                       />
-                      <CRSelect
-                        className="w-full"
-                        label="Vehicle Type"
-                        name="vehicleType"
-                        options={vehicleTypes}
-                        defaultValue={data?.vehicleType}
-                      />
                     </div>
                   </div>
                   <div className="w-full">
@@ -164,7 +134,7 @@ const EditModal:FC<IModalProps> = ({ isOpen, onClose, data }) => {
                   defaultValue={data?.description}
                 />
 
-                <CARButton text="Upadte" />
+                <CARButton text="Update" htmlType="submit" />
               </CRForm>
             </DialogDescription>
           </DialogHeader>

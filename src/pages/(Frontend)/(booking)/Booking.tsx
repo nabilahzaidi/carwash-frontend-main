@@ -1,5 +1,6 @@
 import CRForm from '@/components/form/CRForm';
 import CRInput from '@/components/form/CRInput';
+import CRSelect from '@/components/form/CRSelect';
 import Empty from '@/components/shared/Empty';
 import Loading from '@/components/shared/Loading';
 import PageBanner from '@/components/shared/PageBanner';
@@ -15,7 +16,7 @@ import {
 } from '@/components/ui/table';
 import { useGetUserinfoQuery } from '@/redux/features/auths/authApi';
 import { useCurrentToken } from '@/redux/features/auths/authSlice';
-import { useAddBookingMutation } from '@/redux/features/bookings/BookingApi';
+import { useInitiateQuickPaymentMutation } from '@/redux/features/bookings/BookingApi';
 import { useAppSelector } from '@/redux/hook';
 import { verifyToken } from '@/utils/verifyToken';
 import { Image } from 'antd';
@@ -24,6 +25,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useState } from 'react';
 
+const vehicleTypeOptions = [
+  { value: 'sedan', label: 'Sedan' },
+  { value: 'suv', label: 'SUV' },
+  { value: 'mpv', label: 'MPV' },
+];
+
 const Booking = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,7 +38,7 @@ const Booking = () => {
   const [selectedBooking, setSelectedBooking] = useState(initialBookingData);
   const bookedService = selectedBooking?.service;
   const bookedSlot = selectedBooking?.slot;
-  const [addBooking] = useAddBookingMutation();
+  const [initiateQuickPayment] = useInitiateQuickPaymentMutation();
 
   const token = useAppSelector(useCurrentToken);
   let user;
@@ -55,21 +62,17 @@ const Booking = () => {
       return;
     }
 
-    const bookings = {
-      serviceId: bookedService._id,
-      slotId: bookedSlot._id,
-      vehicleType: data.vehicleType || 'car',
-      vehicleBrand: data.vehicleBrand || 'Tata',
-      vehicleModel: data.vehicleModel || 'Camry',
-      manufacturingYear: data.manufacturingYear || 2024,
-      registrationPlate: data.registrationPlate || 'ABC123',
+    const paymentData = {
+      transactionId: `txn-${Date.now()}`,
+      totalPrice: bookedService.price,
       customerName: data.name || userInfo?.name,
       customerEmail: data.email || userInfo?.email,
       customerPhone: data.phone || userInfo?.phone,
+      customerAddress: userInfo?.address || 'N/A',
     };
 
     try {
-      const res = await addBooking(bookings).unwrap();
+      const res = await initiateQuickPayment(paymentData).unwrap();
       if (res.success) {
         toast.success(res.message);
         if (res.data?.payment_url) {
@@ -81,7 +84,7 @@ const Booking = () => {
         toast.error(res.message || 'Payment initialization failed.');
       }
     } catch (err: any) {
-      toast.error(err?.data?.message || err?.message || 'Booking failed.');
+      toast.error(err?.data?.message || err?.message || 'Payment initiation failed.');
     }
   };
 
@@ -203,6 +206,17 @@ const Booking = () => {
                       defaultValue={userInfo?.phone}
                     />
                   </div>
+                  <CRInput
+                    type="text"
+                    label="Registration Plate"
+                    name="registrationPlate"
+                  />
+                  <CRSelect
+                    className="w-full"
+                    label="Vehicle Type"
+                    name="vehicleType"
+                    options={vehicleTypeOptions}
+                  />
                   <p className="p-2 bg-slate-50 rounded-sm mb-6">
                     Selected Time Slot: 09:00-10:00
                   </p>
