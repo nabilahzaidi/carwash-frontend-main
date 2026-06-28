@@ -21,7 +21,7 @@ const CRInput = ({ type, name,readonly, label, disabled,className,placeholder,de
         
         defaultValue={defaultValue}
         render={({ field }) => (
-          <Form.Item label={label}>
+          <Form.Item label={<span className="text-white">{label}</span>}>
             <Input
               {...field}
               type={type}
@@ -30,6 +30,7 @@ const CRInput = ({ type, name,readonly, label, disabled,className,placeholder,de
               size="large"
               disabled={disabled}
               readOnly={readonly}
+              className="bg-slate-900/80 text-white placeholder:text-slate-300 border border-slate-700"
             />
           </Form.Item>
         )}

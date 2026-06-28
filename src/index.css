@@ -6,69 +6,101 @@
 
 
 @layer base {
+  /* Silver theme (default) */
   :root {
-    --background: #0E2420;
- 
-    --foreground: #d2d8ce;
-    --button-gradient: linear-gradient(166deg, rgba(1,37,51,1) 15%, rgba(58,109,129,1) 100%);
-    --secondary-gradient: rgba(1,37,51,1) 15%;
+    --background: 208 75% 12%; /* soft dark blue background */
+    --foreground: 0 0% 98%; /* bright text for contrast */
+    --button-gradient: linear-gradient(166deg, #3b82f6 15%, #93c5fd 55%, #fde68a 100%);
+    --secondary-gradient: linear-gradient(166deg, #fcd34d 15%, #f59e0b 100%);
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 211 60% 18%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 211 60% 18%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: #012533;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 89% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: linear-gradient(166deg, rgba(1,37,51,1) 15%, rgba(58,109,129,1) 100%);
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 45 100% 55%;
+    --secondary-foreground: 211 23% 12%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 30% 18%;
+    --muted-foreground: 0 0% 98%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 204 100% 78%;
+    --accent-foreground: 211 23% 12%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 348 83% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 212 40% 24%;
+    --input: 212 40% 20%;
+    --ring: 210 80% 55%;
 
     --radius: 0.5rem;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 0 0% 100%;
+  /* Dark Silver theme */
+  [data-theme="dark-silver"], .theme-dark-silver, .dark {
+    --background: 210 10% 12%; /* dark gray */
+    --foreground: 0 0% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 210 8% 8%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 210 8% 8%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: #012533;
+    --primary: 210 8% 70%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: linear-gradient(166deg, rgba(1,37,51,1) 15%, rgba(58,109,129,1) 100%);
+    --secondary: linear-gradient(166deg, #6b6b6b 15%, #8f8f8f 100%);
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
+    --muted: 210 8% 18%;
     --muted-foreground: 0 0% 100%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 210 8% 18%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 210 8% 18%;
+    --input: 210 8% 18%;
+    --ring: 210 8% 70%;
+  }
+
+  /* Black theme */
+  [data-theme="black"], .theme-black {
+    --background: 0 0% 0%; /* pure black */
+    --foreground: 0 0% 100%; /* white text */
+
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: linear-gradient(166deg, #222222 15%, #444444 100%);
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 100%;
+
+    --accent: 0 0% 8%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 0 0% 60%;
   }
 }
 

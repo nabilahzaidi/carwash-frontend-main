@@ -135,7 +135,7 @@ const Services = () => {
               {filters && (
                 <button
                   onClick={handleReset}
-                  className="p-2 bg-primary/75 rounded-xl mt-5 hover:bg-blue-400"
+                  className="p-2 bg-primary/75 rounded-xl mt-5 hover:bg-purple-700"
                   type="button"
                 >
                   Clear filter

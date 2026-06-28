@@ -8,11 +8,12 @@ const Footer = () => {
   return (
     <div>
       <div className="relative ">
+        <div className="absolute -left-12 -top-12 h-44 w-44 rounded-full bg-yellow-300/30 blur-3xl" />
+        <div className="absolute right-8 top-16 h-28 w-28 rounded-full bg-purple-500/25 blur-3xl" />
         <Blue_waves />
-        <div className="bg-button-gradient px-6  relative overflow-hidden  max-h-[350px]">
+        <div className="bg-button-gradient px-6 relative overflow-hidden max-h-[350px]">
           <img
-            className="hover:translate-x-5  overflow-hidden object-cover translate-x-2 
-            duration-1000 hover:ease-in-out hover:duration-1000"
+            className="hover:translate-x-5 overflow-hidden object-cover translate-x-2 duration-1000 hover:ease-in-out hover:duration-1000"
             src="/svg/bg.svg"
             alt=""
           />

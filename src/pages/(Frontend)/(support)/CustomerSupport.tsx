@@ -39,19 +39,19 @@ const CustomerSupport = () => {
     <div className="space-y-8 py-8">
       <div className="rounded-3xl border border-border bg-background/80 p-8 shadow-xl shadow-primary/10">
         <h1 className="text-4xl font-bold text-foreground">Customer Support</h1>
-        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+        <p className="mt-3 max-w-2xl text-sm text-white/80">
           Send your enquiry to our support team. Your message is stored for admin review and answers.
         </p>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="rounded-3xl border border-border bg-background/90 p-8 shadow-lg shadow-primary/5">
-          <label className="mb-3 block text-lg font-semibold text-foreground" htmlFor="support-message">
+          <label className="mb-3 block text-lg font-semibold text-white" htmlFor="support-message">
             Write your enquiry
           </label>
           <textarea
             id="support-message"
-            className="min-h-[260px] w-full rounded-3xl border border-input bg-[#f9fafb]/80 px-4 py-4 text-base text-slate-900 outline-none transition focus:border-primary/80 focus:ring-2 focus:ring-primary/20 dark:bg-slate-900 dark:text-white dark:border-slate-700"
+            className="min-h-[260px] w-full rounded-3xl border border-input bg-slate-900/90 px-4 py-4 text-base text-white outline-none transition focus:border-primary/80 focus:ring-2 focus:ring-primary/20"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Describe your issue, question or request here..."
@@ -69,12 +69,12 @@ const CustomerSupport = () => {
         </div>
 
         <div className="rounded-3xl border border-border bg-background/90 p-8 shadow-lg shadow-primary/5">
-          <h2 className="text-2xl font-semibold text-foreground">Need help?</h2>
-          <p className="mt-3 text-muted-foreground">
+          <h2 className="text-2xl font-semibold text-white">Need help?</h2>
+          <p className="mt-3 text-white/80">
             You can ask anything about booking, services, pricing, or account issues. The admin team will review your enquiry and reply from the dashboard.
           </p>
           <div className="mt-8 rounded-3xl border border-dashed border-primary/40 bg-primary/5 px-6 py-8">
-            <p className="text-sm text-muted-foreground">Your enquiry box is empty until you type a message above.</p>
+            <p className="text-sm text-white/80">Your enquiry box is empty until you type a message above.</p>
           </div>
         </div>
       </div>

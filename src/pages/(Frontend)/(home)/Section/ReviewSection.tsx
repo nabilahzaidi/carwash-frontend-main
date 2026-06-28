@@ -68,7 +68,7 @@ const ReviewSection = () => {
               <h2 className="text-6xl text-primary font-bold">
                 {' '}
                 {averageReview.toFixed(1)}{' '}
-                <span className="text-[11px] text-gray-600">
+                <span className="text-[11px] text-white/70">
                   {' '}
                   {reviewData?.data?.length} reviews{' '}
                 </span>{' '}

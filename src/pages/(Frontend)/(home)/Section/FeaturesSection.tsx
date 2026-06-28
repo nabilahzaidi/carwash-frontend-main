@@ -70,7 +70,7 @@ of your vehicle's surfaces.`,
                   <img className="w-20 invert" src={item.icon} alt="" />
                   <div className="md:w-96">
                     <h4 className="text-2xl font-semibold">{item.title}</h4>
-                    <p className="text-sm text-justify text-gray-300">
+                    <p className="text-sm text-justify text-white/80">
                       {item.discription}
                     </p>
                   </div>

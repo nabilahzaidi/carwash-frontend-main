@@ -10,11 +10,11 @@ className="w-full h-auto"
 <defs>
   <style>
     {`
-      .cls-1{fill:#012533;}
-      .cls-2{opacity:0.5;}
-      .cls-3{fill:#012533;}
+      .cls-1{fill:#3b82f6;}
+      .cls-2{opacity:0.55;}
+      .cls-3{fill:#93c5fd;}
       .cls-4{opacity:0.4;}
-      .cls-5{fill:#326376;}
+      .cls-5{fill:#facc15;}
     `}
   </style>
 </defs>

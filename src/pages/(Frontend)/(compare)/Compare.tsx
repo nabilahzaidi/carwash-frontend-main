@@ -40,7 +40,7 @@ const Compare = () => {
         <tr className="border border-gray-300 bg-primary/10 rounded-md md:border-none block md:table-row">
         {
             tableHeader.map((item)=>(
-                <th key={item.label} className="p-4 text-left text-sm font-semibold text-gray-600 block md:table-cell">{item.label}</th>
+                <th key={item.label} className="p-4 text-left text-sm font-semibold text-white block md:table-cell">{item.label}</th>
             ))
         }
         

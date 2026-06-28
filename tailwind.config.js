@@ -29,7 +29,7 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-        primary: '#012533',
+        primary: 'hsl(var(--primary))',
         secondary: 'var(--secondary-gradient)',
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',

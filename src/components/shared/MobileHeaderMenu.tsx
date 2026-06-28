@@ -72,7 +72,7 @@ const MobileHeaderMenu = () => {
               <Link
                 key={index}
                 to={item.menuPath}
-                className="block text-white hover:text-blue-500 px-3 py-2 rounded-md text-base font-medium"
+                className="block text-white hover:text-green-200 px-3 py-2 rounded-md text-base font-medium"
               >
                 {item.menuLabel}
               </Link>
