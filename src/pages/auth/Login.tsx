@@ -33,12 +33,16 @@ const Login = () => {
         throw new Error('No token received');
       }
 
-      const user = verifyToken(token) as TUser;
+      const user = verifyToken(token) as TUser | null;
       dispatch(setUser({ user, token }));
       toast.success('Logged in', { id: toastId, duration: 2000 });
 
       if (responseData?.needsPasswordChange) {
         navigate('/change-password');
+      } else if (user?.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (user?.role === 'user') {
+        navigate('/user/dashboard');
       } else {
         navigate('/');
       }

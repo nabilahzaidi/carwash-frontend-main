@@ -5,7 +5,7 @@ import Loading from '@/components/shared/Loading';
 import PageBanner from '@/components/shared/PageBanner';
 
 import { CustomJwtPayload } from '@/interface/interface';
-import { useCurrentToken } from '@/redux/features/auths/authSlice';
+import { getStoredToken, useCurrentToken } from '@/redux/features/auths/authSlice';
 import { addCompare } from '@/redux/features/compare/compareSlice';
 import {
   useGetAvailableServicesQuery,
@@ -25,10 +25,8 @@ const ServiceDetails = () => {
   const dispatch = useAppDispatch()
   const { id } = useParams();
   const token = useAppSelector(useCurrentToken);
-  let user: CustomJwtPayload;
-  if (token) {
-    user = verifyToken(token);
-  }
+  const activeToken = token || getStoredToken();
+  const user = verifyToken(activeToken) as CustomJwtPayload | null;
 
   const [selectDate, setSelectDate] = useState(currentDate);
   const { data, isLoading } = useGetSingleServicesQuery(id);

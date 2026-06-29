@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import {  Layout, Menu, theme } from 'antd';
-import { TUser, useCurrentToken } from '@/redux/features/auths/authSlice';
+import { getStoredToken, TUser, useCurrentToken } from '@/redux/features/auths/authSlice';
 
 import { adminPaths } from '@/routes/admin.routes';
 import { userPaths } from '@/routes/user.routes';
@@ -25,31 +25,22 @@ const userRole ={
 
 const BackendLayout: React.FC = () => {
   const location = useLocation();
-   
-    
-    const pathname = location.pathname;
+  const pathname = location.pathname;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-const token = useAppSelector(useCurrentToken);
-let user;
-if(token){
-  user = verifyToken(token);
-}
+  const token = useAppSelector(useCurrentToken);
+  const activeToken = token || getStoredToken();
+  const user = verifyToken(activeToken) as TUser | null;
 
-  let sidebarItems:any;
-  
-  switch((user as TUser)!.role){
-    case userRole.ADMIN:
-      sidebarItems = SidebarGenarator(adminPaths,userRole.ADMIN);
-      break;
-    case userRole.USER:
-      sidebarItems= SidebarGenarator(userPaths,userRole.USER)
-      break;
-      default:
-        break;
-  } 
+  let sidebarItems:any = [];
+
+  if (user?.role === userRole.ADMIN) {
+    sidebarItems = SidebarGenarator(adminPaths, userRole.ADMIN);
+  } else if (user?.role === userRole.USER) {
+    sidebarItems = SidebarGenarator(userPaths, userRole.USER);
+  }
 
 
 

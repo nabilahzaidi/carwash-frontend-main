@@ -1,4 +1,4 @@
-import {  useCurrentToken } from '@/redux/features/auths/authSlice';
+import { getStoredToken, useCurrentToken } from '@/redux/features/auths/authSlice';
 import {  useAppSelector } from '@/redux/hook';
 import CARButton from '../ui/CARButton';
 import { Link, NavLink } from 'react-router-dom';
@@ -16,10 +16,8 @@ const Navbar = () => {
   
 
   const token = useAppSelector(useCurrentToken);
-  let user;
-  if(token){
-      user= verifyToken(token);
-  }
+  const activeToken = token || getStoredToken();
+  const user = verifyToken(activeToken);
   
 
 

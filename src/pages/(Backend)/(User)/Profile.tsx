@@ -3,7 +3,7 @@ import CRInput from '@/components/form/CRInput';
 import Loading from '@/components/shared/Loading';
 import CARButton from '@/components/ui/CARButton';
 import { useGetUserinfoQuery, useUpdateUserInfoMutation } from '@/redux/features/auths/authApi';
-import { useCurrentToken } from '@/redux/features/auths/authSlice';
+import { getStoredToken, useCurrentToken } from '@/redux/features/auths/authSlice';
 import { useAppSelector } from '@/redux/hook';
 import { verifyToken } from '@/utils/verifyToken';
 import { Edit, X } from 'lucide-react';
@@ -15,10 +15,8 @@ const Profile = () => {
     const [isUpdate,setIsUpdate]=useState(false)
     const [updateUserInfo]= useUpdateUserInfoMutation()
     const token = useAppSelector(useCurrentToken);
-    let user;
-    if(token){
-        user = verifyToken(token);
-    }
+    const activeToken = token || getStoredToken();
+    const user = verifyToken(activeToken);
 
     const userEmail = user?.userEmail || user?.email;
     const { data: userData, isLoading } = useGetUserinfoQuery(userEmail, {

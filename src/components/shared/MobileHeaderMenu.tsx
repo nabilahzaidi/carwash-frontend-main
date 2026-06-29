@@ -1,4 +1,4 @@
-import { logout, useCurrentToken } from "@/redux/features/auths/authSlice";
+import { getStoredToken, logout, useCurrentToken } from "@/redux/features/auths/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { verifyToken } from "@/utils/verifyToken";
 import { AlignJustify, AlignRight } from "lucide-react";
@@ -9,10 +9,8 @@ import ThemeToggle from './ThemeToggle';
 const MobileHeaderMenu = () => {
     const dispatch = useAppDispatch()
     const token = useAppSelector(useCurrentToken);
-    let user;
-    if(token){
-        user= verifyToken(token);
-    }
+    const activeToken = token || getStoredToken();
+    const user = verifyToken(activeToken);
     
     const [isOpen, setIsOpen] = useState(false);
 
