@@ -8,7 +8,7 @@
 @layer base {
   /* Silver theme (default) */
   :root {
-    --background: 208 75% 12%; /* soft dark blue background */
+    --background: 211 54% 46%; /* #3674B5 background */
     --foreground: 0 0% 98%; /* bright text for contrast */
     --button-gradient: linear-gradient(166deg, #3b82f6 15%, #93c5fd 55%, #fde68a 100%);
     --secondary-gradient: linear-gradient(166deg, #fcd34d 15%, #f59e0b 100%);

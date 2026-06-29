@@ -48,7 +48,7 @@ const ReviewSection = () => {
         }}
       >
         <div className="absolute top-1 px-4 md:px-0 md:left-[5%] 2xl:left-[0%] xl:px-8  w-full 2xl:container 2xl:mx-auto ">
-          <h3 className="text-center relative xl:right-0 text-primary font-bold md:text-4xl 2xl:text-6xl">
+          <h3 className="text-center relative xl:right-0 text-white font-bold md:text-4xl 2xl:text-6xl">
             What Our Clients Say
           </h3>
 
@@ -65,7 +65,7 @@ const ReviewSection = () => {
                   </span>
                 ))}
               </div>
-              <h2 className="text-6xl text-primary font-bold">
+              <h2 className="text-6xl text-white font-bold">
                 {' '}
                 {averageReview.toFixed(1)}{' '}
                 <span className="text-[11px] text-white/70">

@@ -7,7 +7,7 @@ const CallToActions = () => {
     return (
         <div className='md:flex gap-4 justify-around container items-center rounded-b-2xl shadow-md hover:shadow-2xl p-10 border bg-green-950/5 py-20 2xl:p-20 mx-auto'>
            <div className='max-w-2xl space-y-4 mx-auto 2xl:max-w-4xl'>
-           <h2 className='xl:text-5xl text-3xl text-primary font-bold'>
+           <h2 className='xl:text-5xl text-3xl text-white font-bold'>
             Best Full-Service Hand Car Wash 
             </h2>
             <p>We strive to give you the best customer experience and the best care for your vehicle. From our excellent

@@ -79,7 +79,7 @@ const CreateSlots: FC<IModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
       <div className="relative  bg-white p-14 rounded-2xl shadow-lg max-w-full max-h-full">
         <button
-          className="absolute text-2xl hover:bg-primary/20 rounded-full pb-2 text-center px-3.5 hover:text-red-600 text-primary top-4 right-6"
+          className="absolute text-2xl hover:bg-primary/20 rounded-full pb-2 text-center px-3.5 hover:text-red-600 text-slate-900 top-4 right-6"
           onClick={onClose}
         >
           x

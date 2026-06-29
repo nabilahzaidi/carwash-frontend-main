@@ -66,7 +66,7 @@ const Navbar = () => {
     <div className=" hidden lg:block ">
       <div className="flex 2xl:container px-6 mx-auto items-center py-4 justify-between">
        <div>
-       <h1 className="text-3xl text-primary  font-bold ">Car Wash</h1>
+       <h1 className="text-3xl text-white font-bold">Car Wash</h1>
        <small>professional car wash</small>
        </div>
        
@@ -99,7 +99,7 @@ const Navbar = () => {
           {
             navMenu.map((item,i)=>(
              <NavLink className={({isActive})=> 
-            isActive ? 'bg-slate-200 text-primary   animate-press duration-1000  px-3 font-medium rounded-xl p-0.5' : "px-3 text-gray-100 font-medium rounded-xl p-0.5"
+            isActive ? 'bg-slate-200 text-slate-900 animate-press duration-1000 px-3 font-medium rounded-xl p-0.5' : "px-3 text-gray-100 font-medium rounded-xl p-0.5"
             } key={i} to={item.menuPath}> 
              {item.menuLabel}
              </NavLink>

@@ -77,7 +77,7 @@ const AddNewService: FC<IModalProps> = ({ isOpen, onClose }) => {
        <div className="relative bg-white p-20 rounded shadow-lg max-w-full max-h-full">
        <div>
        <h3 className="text-2xl font-bold">Add New Service</h3> 
-       <button className='absolute text-2xl text-primary top-4 right-4' onClick={onClose}><Minimize2Icon/></button>
+       <button className='absolute text-2xl text-slate-900 top-4 right-4' onClick={onClose}><Minimize2Icon/></button>
        </div>
  
        <div className='flex  justify-between'>

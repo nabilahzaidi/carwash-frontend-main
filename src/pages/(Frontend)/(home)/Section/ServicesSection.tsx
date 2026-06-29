@@ -19,7 +19,7 @@ const ServicesSection = () => {
     return (
         <div  className="2xl:container md:mx-6 mx-4 2xl:mx-auto ">
             <div className="mb-10 space-y-4 max-w-4xl text-center mx-auto">
-                <h3 className="text-center text-primary font-bold text-4xl">Most Popular Features Services</h3>
+                <h3 className="text-center text-white font-bold text-4xl">Most Popular Features Services</h3>
                 <p className="text-justify md:text-center">Experience a spotless shine with our top-rated services—express washes, premium detailing, eco-friendly products, and convenient online booking. Whether it’s a quick clean or a full-service pampering, we’ve got your car covered, inside and out.</p>
             </div>
             

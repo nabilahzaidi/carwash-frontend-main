@@ -63,7 +63,7 @@ const CustomerEnquiries = () => {
                   <p className="text-sm text-muted-foreground">Sent:</p>
                   <p className="text-sm text-foreground">{new Date(item.createdAt).toLocaleString()}</p>
                 </div>
-                <span className="rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">Customer enquiry</span>
+                <span className="rounded-full bg-primary/10 px-3 py-1 text-sm text-slate-900">Customer enquiry</span>
               </div>
 
               <div className="mt-6 rounded-3xl bg-primary/5 p-6 text-foreground">

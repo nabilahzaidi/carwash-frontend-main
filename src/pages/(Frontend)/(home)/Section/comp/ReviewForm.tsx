@@ -93,7 +93,7 @@ const ReviewForm = () => {
   };
   return (
     <div className="w-full bg-primary/25  rounded-xl p-6 2xl:p-10">
-      <div className="text-4xl flex justify-center  py-4 text-primary">
+      <div className="text-4xl flex justify-center  py-4 text-white">
         <RatingComponent
           emptySymbol={<Star />}
           fullSymbol={<Stars className="text-red-500 fill-red-500" />}

@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <div className="2xl:p-20 p-4">
-      <div className="2xl:w-[60vw] md:w-[70vw] md:flex mx-auto 2xl:h-[80vh] my-auto rounded-3xl shadow-2xl  bg-primary/5">
+      <div className="2xl:w-[60vw] md:w-[70vw] md:flex mx-auto 2xl:h-[80vh] my-auto rounded-3xl shadow-2xl bg-gradient-to-r from-[#4BB8FA] via-[#89D4FB] to-[#FFE28A] text-white">
         <div className="w-full space-y-6 p-4 md:p-8  2xl:p-20">
           <div className="">
             <h4 className="text-3xl font-bold">Login Now</h4>

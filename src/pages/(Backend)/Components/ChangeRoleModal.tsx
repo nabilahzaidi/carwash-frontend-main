@@ -45,7 +45,7 @@ const ChangeRoleModal: FC<IModalProps> = ({ isOpen, onClose, data }) => {
                 className="space-y-4"
                 action=""
               >
-                <div className="flex items-center text-primary gap-4 my-10">
+                <div className="flex items-center text-slate-900 gap-4 my-10">
                   <div className="w-full">
                     <label htmlFor="">User Name</label>
                     <Input
