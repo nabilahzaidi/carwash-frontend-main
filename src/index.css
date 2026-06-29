@@ -7,9 +7,8 @@
 
 @layer base {
   :root {
-    --background: #0E2420;
- 
-    --foreground: #d2d8ce;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
     --button-gradient: linear-gradient(166deg, rgba(1,37,51,1) 15%, rgba(58,109,129,1) 100%);
     --secondary-gradient: rgba(1,37,51,1) 15%;
 
@@ -39,36 +38,6 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 0 0% 100%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 0 0% 100%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 0 0% 100%;
-
-    --primary: #012533;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: linear-gradient(166deg, rgba(1,37,51,1) 15%, rgba(58,109,129,1) 100%);
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 0 0% 100%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
   }
 }
 

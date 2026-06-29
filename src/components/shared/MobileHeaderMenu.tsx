@@ -4,7 +4,6 @@ import { verifyToken } from "@/utils/verifyToken";
 import { AlignJustify, AlignRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ThemeToggle from './ThemeToggle';
 
 const MobileHeaderMenu = () => {
     const dispatch = useAppDispatch()
@@ -56,7 +55,6 @@ const MobileHeaderMenu = () => {
           </div>
         
           <div className="flex items-center gap-2">
-            <ThemeToggle />
             <button onClick={toggleMenu} className="text-gray-200 focus:outline-none">
               {isOpen ?<AlignJustify /> : <AlignRight />}
             </button>

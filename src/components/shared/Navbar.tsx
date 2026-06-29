@@ -6,7 +6,6 @@ import {  Input } from 'antd';
 import { Clock8, PhoneCall } from 'lucide-react';
 import Iconbg from '../ui/Iconbg';
 import HoverProfileMenu from './HoverProfileMenu';
-import ThemeToggle from './ThemeToggle';
 import { verifyToken } from '@/utils/verifyToken';
 import ScrollTop from './ScrollToTop';
 
@@ -108,7 +107,6 @@ const Navbar = () => {
         </ul>
         
         <div className="flex gap-4 items-center">
-          <ThemeToggle />
            <form>
            <div className="flex  items-center justify-end  rounded-tl-md rounded-bl-md    text-black">
                <Input type='text' name='searchTerm' onChange={(e)=>handleSubmitSearch(e.target.value)} />
