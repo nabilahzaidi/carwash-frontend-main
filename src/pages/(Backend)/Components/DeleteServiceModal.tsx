@@ -32,7 +32,7 @@ const DeleteServiceModal:FC<IDeleteModalProps> = ({data}) => {
 
     const res = await deleteService(id)
     if (res?.data?.success) {
-      toast.success(res?.data?.message, { duration: 2000 });
+      toast.success('Service deleted successfully', { duration: 2000 });
       
     }
   };

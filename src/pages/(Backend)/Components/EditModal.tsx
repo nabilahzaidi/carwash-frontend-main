@@ -47,21 +47,39 @@ const EditModal:FC<IModalProps> = ({ isOpen, onClose, data }) => {
 
   const handleEditDataSubmit = async (formData:any) => {
     const toastId = toast.loading('Service Updating..');
-    const newData = data?._id;
+    const newData = data?._id || data?.id;
+
+    if (!newData) {
+      toast.error('Service id is missing', { id: toastId, duration: 2000 });
+      return;
+    }
 
     const update = {
       ...formData,
       id: newData,
+      _id: newData,
+      price: Number(formData.price),
+      duration: Number(formData.duration),
     };
 
     const res = await updateService(update);
 
-    if (res.data.success) {
+    if (res?.data?.success) {
       toast.success('Service info updated successfully', {
         id: toastId,
         duration: 2000,
       });
       onClose();
+    } else {
+      const errorMessage =
+        typeof res?.error === 'object' && res.error && 'data' in res.error
+          ? (res.error as { data?: { message?: string } }).data?.message
+          : 'Unable to update service';
+
+      toast.error(errorMessage || 'Unable to update service', {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 

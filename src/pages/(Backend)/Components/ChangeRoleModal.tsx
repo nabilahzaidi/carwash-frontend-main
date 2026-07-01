@@ -22,14 +22,23 @@ const ChangeRoleModal: FC<IModalProps> = ({ isOpen, onClose, data }) => {
     e.preventDefault();
 
     const newRole = e.target.role.value;
+    const userId = data?.uid || data?.id || data?._id;
+
+    if (!userId) {
+      toast.error('User ID is missing. Please refresh and try again.');
+      return;
+    }
+
     const userInfo = {
       role: newRole,
-      userId: data._id,
+      userId,
     };
     const res = await updateUserRole(userInfo);
     if (res?.data?.success) {
-      toast.success(res?.data?.message, { duration: 2000 });
+      toast.success('Role updated successfully', { duration: 2000 });
       onClose();
+    } else {
+      toast.error('Failed to update role. Please try again.');
     }
   };
 

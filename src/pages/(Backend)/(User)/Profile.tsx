@@ -32,7 +32,7 @@ const Profile = () => {
     }
     const userInfo = userData?.data;
 
-  const userId = userInfo._id;
+  const userId = userInfo?._id || userInfo?.id;
     
 
     const handleBookingSubmit =async (data:any) => {
@@ -43,7 +43,7 @@ const Profile = () => {
    
         const res =await updateUserInfo(updateData);
 
-        if(res.data.success){
+        if(res?.data?.success){
             toast.success("User Information Updated Successfully")
         }
        console.log(updateData);

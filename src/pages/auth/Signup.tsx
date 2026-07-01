@@ -27,10 +27,9 @@ const Signup = () => {
         const userInfo = { ...data, role: 'user' };
 
         try {
-            const res = await signup(userInfo).unwrap();
-            const message = res?.message || 'Signup successful';
+            await signup(userInfo).unwrap();
 
-            toast.success(message, { id: toastId, duration: 2000 });
+            toast.success('Signup successful', { id: toastId, duration: 2000 });
             navigate('/login');
         } catch (err: any) {
             // Try to extract a helpful error message from the RTK Query error

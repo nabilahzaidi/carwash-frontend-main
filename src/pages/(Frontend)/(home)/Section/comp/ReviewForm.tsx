@@ -33,7 +33,9 @@ const ReviewForm = () => {
   const RatingComponent = Rating as any;
 
   const handleReviewSubmit = async (data: any) => {
-    if (!userData?.data?._id) {
+    const userId = userData?.data?._id || userData?.data?.id;
+
+    if (!userId) {
       toast.error('Please sign in to give feedback');
       return;
     }
@@ -54,7 +56,7 @@ const ReviewForm = () => {
     }
 
     const ratingData = {
-      user: userData.data._id,
+      user: userId,
       feedback: data.feedback,
       rating: rating,
       profileImg:
@@ -69,7 +71,7 @@ const ReviewForm = () => {
           // eslint-disable-next-line no-console
           console.debug('Review submit debug', {
             token,
-            userId: userData?.data?._id,
+            userId,
             ratingData,
             decoded: token ? verifyToken(token) : null,
           });
@@ -84,7 +86,7 @@ const ReviewForm = () => {
         toast.success('Thanks for your feedback!');
         setRating(3);
       } else {
-        toast.error(res?.message || 'Failed to submit review');
+        toast.error('Failed to submit review');
       }
     } catch (err: any) {
       const message = err?.data?.message || err?.error || 'Failed to submit review';

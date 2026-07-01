@@ -1,4 +1,4 @@
-import { getStoredToken, useCurrentToken } from '@/redux/features/auths/authSlice';
+import { getStoredToken, selectCurrentUser, useCurrentToken } from '@/redux/features/auths/authSlice';
 import {  useAppSelector } from '@/redux/hook';
 import CARButton from '../ui/CARButton';
 import { Link, NavLink } from 'react-router-dom';
@@ -15,9 +15,10 @@ const Navbar = () => {
   
 
   const token = useAppSelector(useCurrentToken);
+  const currentUser = useAppSelector(selectCurrentUser);
   const activeToken = token || getStoredToken();
-  const user = verifyToken(activeToken);
-  
+  const decodedUser = verifyToken(activeToken);
+  const user = currentUser ?? decodedUser;
 
 
   
@@ -55,7 +56,7 @@ const Navbar = () => {
     },
      {
     menuLabel:"Dashboard",
-    menuPath:`/${user?.role}/dashboard`
+    menuPath: user?.role ? `/${user.role}/dashboard` : '/login'
   },
   ]
 

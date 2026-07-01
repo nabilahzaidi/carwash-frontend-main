@@ -40,7 +40,7 @@ const ServiceDetails = () => {
   }
   const serviceSlots = serviceSlot?.data;
 
-  const service = data?.data;
+  const service = data?.data ?? null;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDateSubmit = (date: any) => {
@@ -81,7 +81,7 @@ const ServiceDetails = () => {
           <div className="w-full overflow-hidden">
             <Image
               className="w-full xl:min-h-[600px] object-cover  bg-primary/5 rounded-xl md:rounded-l-2xl"
-              src={service.images}
+              src={service?.images}
               alt=""
             />
           </div>
@@ -92,7 +92,7 @@ const ServiceDetails = () => {
             <div className="flex justify-between items-center ">
               <h2 className="text-3xl font-bold">{service?.name}</h2>
               <small className="border p-1 rounded-lg bg-primary/10 px-2">
-                {service.serviceLevel}
+                {service?.serviceLevel}
               </small>
             </div>
             <h2 className="text-xl font-bold">
@@ -101,7 +101,7 @@ const ServiceDetails = () => {
             <h2 className="text-2xl font-bold">Price: {service?.price} RM </h2>
             <p>
               <span>Details: </span>
-              {service.description}
+              {service?.description}
             </p>
             </div>
             {/* compare button  */}
@@ -175,7 +175,7 @@ const ServiceDetails = () => {
                     </div>
                     <div className="flex justify-between border">
                       <div>
-                        <p>Price: {service.price} RM</p>
+                        <p>Price: {service?.price} RM</p>
                       </div>
                       {slot.isBooked === 'booked' ? (
                         <Button disabled>Already Booked</Button>

@@ -1,34 +1,56 @@
 import { baseApi } from '@/redux/api/baseApi';
+import { createReview, deleteReview, listReviews } from '@/lib/firebase';
 
 const reviewsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getReviews: builder.query({
-      query: (filters) => {
-        const params = new URLSearchParams(filters);
-        return { url: `/reviews?${params}`, method: 'GET' };
+      async queryFn() {
+        try {
+          const reviews = await listReviews();
+          return { data: { success: true, data: reviews } };
+        } catch (error: any) {
+          return {
+            error: {
+              status: 400,
+              data: { message: error?.message || 'Unable to load reviews' },
+            },
+          };
+        }
       },
       providesTags: ['reviews'],
     }),
 
-  
-    // addReview api
     addReview: builder.mutation({
-      query: (data) => ({
-        url: '/reviews',
-        method: 'POST',
-        body: data,
-      }),
+      async queryFn(data) {
+        try {
+          const review = await createReview(data as Record<string, unknown>);
+          return { data: { success: true, data: review } };
+        } catch (error: any) {
+          return {
+            error: {
+              status: 400,
+              data: { message: error?.message || 'Review submission failed' },
+            },
+          };
+        }
+      },
       invalidatesTags: ['reviews'],
     }),
 
-
-
-    // delete Review api
     deleteReview: builder.mutation({
-      query: (id) => ({
-        url: `/reviews/${id}`,
-        method: 'DELETE',
-      }),
+      async queryFn(id) {
+        try {
+          const result = await deleteReview(String(id));
+          return { data: result };
+        } catch (error: any) {
+          return {
+            error: {
+              status: 400,
+              data: { message: error?.message || 'Review deletion failed' },
+            },
+          };
+        }
+      },
       invalidatesTags: ['reviews'],
     }),
   }),

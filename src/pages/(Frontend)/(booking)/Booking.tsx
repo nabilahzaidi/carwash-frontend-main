@@ -72,7 +72,7 @@ const Booking = () => {
 
     try {
       const res = await addBooking(bookingPayload).unwrap();
-      const createdBooking = res.data;
+      const createdBooking = res?.data ?? res;
       toast.success('Booking created. Proceed to payment.');
       const paymentData = {
         transactionId: `txn-${Date.now()}`,

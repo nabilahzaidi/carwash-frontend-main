@@ -1,4 +1,4 @@
-import { getStoredToken, logout, useCurrentToken } from "@/redux/features/auths/authSlice";
+import { getStoredToken, logout, selectCurrentUser, useCurrentToken } from "@/redux/features/auths/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { verifyToken } from "@/utils/verifyToken";
 import { AlignJustify, AlignRight } from "lucide-react";
@@ -8,8 +8,10 @@ import { Link } from "react-router-dom";
 const MobileHeaderMenu = () => {
     const dispatch = useAppDispatch()
     const token = useAppSelector(useCurrentToken);
+    const currentUser = useAppSelector(selectCurrentUser);
     const activeToken = token || getStoredToken();
-    const user = verifyToken(activeToken);
+    const decodedUser = verifyToken(activeToken);
+    const user = currentUser ?? decodedUser;
     
     const [isOpen, setIsOpen] = useState(false);
 
@@ -41,7 +43,7 @@ const MobileHeaderMenu = () => {
         },
         {
             menuLabel:"Dashboard",
-            menuPath:`/${user?.role}/dashboard`
+            menuPath: user?.role ? `/${user.role}/dashboard` : '/login'
           },
        
       ]

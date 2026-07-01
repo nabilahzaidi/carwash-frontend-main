@@ -89,7 +89,7 @@ const UserManagement = () => {
           </TableHeader>
           <TableBody>
             {userDatas?.data?.map((usData:any, i:number) => (
-              <TableRow key={usData._id}>
+              <TableRow key={usData.uid || usData.id || usData._id}>
                 <TableCell className="font-medium">{i + 1}</TableCell>
                 <TableCell className="flex gap-2">
                   <Image

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 
 export interface IServices{
     _id:string;
+    id?: string;
     name: string;
     images?:string;
     serviceLevel?:string;

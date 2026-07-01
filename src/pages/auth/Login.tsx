@@ -22,22 +22,28 @@ const Login = () => {
 
     try {
       const res = await login(data).unwrap();
-      const token =
-        res?.token ||
-        res?.accessToken ||
-        res?.data?.token ||
-        res?.data?.accessToken;
-      const responseData = res?.data ?? res;
+      const token = res?.token || (res as any)?.data?.token || (res as any)?.data?.accessToken;
+      const responseData = (res?.data ?? res) as Record<string, unknown> | undefined;
 
       if (!token) {
         throw new Error('No token received');
       }
 
-      const user = verifyToken(token) as TUser | null;
+      const decodedUser = verifyToken(token) as TUser | null;
+      const user = responseData && typeof responseData === 'object' && ('role' in responseData || 'email' in responseData || 'uid' in responseData)
+        ? ({
+            ...(decodedUser ?? {}),
+            ...responseData,
+            role: String(responseData.role || decodedUser?.role || 'user'),
+            email: String(responseData.email || responseData.userEmail || decodedUser?.email || ''),
+            userEmail: String(responseData.userEmail || responseData.email || decodedUser?.userEmail || decodedUser?.email || ''),
+          } as TUser)
+        : decodedUser;
+
       dispatch(setUser({ user, token }));
       toast.success('Logged in', { id: toastId, duration: 2000 });
 
-      if (responseData?.needsPasswordChange) {
+      if ((responseData as any)?.needsPasswordChange) {
         navigate('/change-password');
       } else if (user?.role === 'admin') {
         navigate('/admin/dashboard');

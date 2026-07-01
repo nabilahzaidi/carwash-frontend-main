@@ -52,8 +52,8 @@ const AddNewService: FC<IModalProps> = ({ isOpen, onClose }) => {
     };
 
     try {
-      const res = await addService(payload).unwrap();
-      toast.success(res.message || 'Service created successfully', {
+      await addService(payload).unwrap();
+      toast.success('Service created successfully', {
         id: toastId,
         duration: 2000,
       });

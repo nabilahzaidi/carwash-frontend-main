@@ -7,7 +7,11 @@ const SidebarGenarator = (items:TUserPath[],role:string) => {
 if(item.path && item.name){
   acc.push({
     key:item.name,
-    label:<NavLink to={`/${role}/${item.path}`}>{item.name}</NavLink>
+    label:(
+      <NavLink to={`/${role}/${item.path}`} className="block w-full rounded-md px-2 py-1.5 text-sm hover:bg-white/10">
+        {item.name}
+      </NavLink>
+    )
   })
 }
 
@@ -20,7 +24,9 @@ if(item.children){
         return{
           key: child.name,
           label:(
-            <NavLink to={`/${role}/${child.path}`}>{child.name}</NavLink>
+            <NavLink to={`/${role}/${child.path}`} className="block w-full rounded-md px-2 py-1.5 text-sm hover:bg-white/10">
+              {child.name}
+            </NavLink>
           )
         }
       }

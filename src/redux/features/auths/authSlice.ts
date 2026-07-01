@@ -6,8 +6,9 @@ export type TUser = {
   userEmail?: string;
   email?: string;
   role: string;
-  iat: number;
-  exp: number;
+  iat?: number;
+  exp?: number;
+  [key: string]: unknown;
 };
 
 type TAuthState = {
@@ -25,6 +26,18 @@ const normalizeToken = (value: string | null | undefined): string | null => {
   return unquoted || null;
 };
 
+const getStoredUser = (): TUser | null => {
+  try {
+    const rawUser = localStorage.getItem('user');
+    if (!rawUser) return null;
+
+    const parsedUser = JSON.parse(rawUser) as TUser;
+    return parsedUser && typeof parsedUser === 'object' ? parsedUser : null;
+  } catch (err) {
+    return null;
+  }
+};
+
 // Restore token from localStorage so it survives full-page navigations
 let tokenFromStorage: string | null = null;
 try {
@@ -34,7 +47,7 @@ try {
 }
 
 const initialState: TAuthState = {
-  user: tokenFromStorage ? (verifyToken(tokenFromStorage) as TUser | null) : null,
+  user: getStoredUser() ?? (tokenFromStorage ? (verifyToken(tokenFromStorage) as TUser | null) : null),
   token: tokenFromStorage,
 };
 
@@ -45,8 +58,10 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       const { user, token } = action.payload;
       const normalizedToken = normalizeToken(token);
+      const decodedUser = normalizedToken ? (verifyToken(normalizedToken) as TUser | null) : null;
+      const resolvedUser = user ?? decodedUser;
 
-      state.user = user ?? (normalizedToken ? (verifyToken(normalizedToken) as TUser | null) : null);
+      state.user = resolvedUser;
       state.token = normalizedToken;
 
       try {
@@ -54,6 +69,12 @@ const authSlice = createSlice({
           localStorage.setItem('token', normalizedToken);
         } else {
           localStorage.removeItem('token');
+        }
+
+        if (resolvedUser) {
+          localStorage.setItem('user', JSON.stringify(resolvedUser));
+        } else {
+          localStorage.removeItem('user');
         }
       } catch (err) {
         // ignore localStorage errors
@@ -64,6 +85,7 @@ const authSlice = createSlice({
       state.token = null;
       try {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
       } catch (err) {
         // ignore
       }

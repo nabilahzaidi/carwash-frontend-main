@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import {  Layout, Menu, theme } from 'antd';
-import { getStoredToken, TUser, useCurrentToken } from '@/redux/features/auths/authSlice';
+import { getStoredToken, selectCurrentUser, TUser, useCurrentToken } from '@/redux/features/auths/authSlice';
 
 import { adminPaths } from '@/routes/admin.routes';
 import { userPaths } from '@/routes/user.routes';
@@ -31,8 +31,10 @@ const BackendLayout: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const token = useAppSelector(useCurrentToken);
+  const currentUser = useAppSelector(selectCurrentUser);
   const activeToken = token || getStoredToken();
-  const user = verifyToken(activeToken) as TUser | null;
+  const decodedUser = verifyToken(activeToken) as TUser | null;
+  const user = currentUser ?? decodedUser;
 
   let sidebarItems:any = [];
 
@@ -47,12 +49,25 @@ const BackendLayout: React.FC = () => {
 
   return (
     <Layout  style={{ minHeight: '100vh' }}>
-      <Sider  collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+        width={240}
+        collapsedWidth={80}
+        className="!bg-slate-900"
+      >
         <div className="demo-logo-vertical " />
         <Link to='/'>
-        <h2 className='text-2xl font-bold text-white text-center py-5'>CAR WASH</h2>
+          <h2 className='text-2xl font-bold text-white text-center py-5'>CAR WASH</h2>
         </Link>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={sidebarItems} />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={['1']}
+          mode="inline"
+          items={sidebarItems}
+          className="!bg-slate-900"
+        />
       </Sider>
       <Layout >
        
