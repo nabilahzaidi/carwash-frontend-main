@@ -18,8 +18,8 @@ const PaymentFailed = () => {
           <p className="mb-2">Card: <strong>{cardType} {maskedCard}</strong></p>
           <p className="text-red-500 mb-4">Your payment could not be processed. Please try again or use a different card.</p>
           <div className="mt-6 flex justify-center gap-4">
-            <Button onClick={() => navigate('/transaction', { state: { paymentData, booking } })}>Try Again</Button>
-            <Button onClick={() => navigate('/')}>Go Home</Button>
+            <Button onClick={() => navigate('/transaction', { state: { paymentData, booking } })} className="bg-blue-600 text-white hover:bg-blue-700">Try Again</Button>
+            <Button onClick={() => navigate('/')} className="bg-blue-600 text-white hover:bg-blue-700">Go Home</Button>
           </div>
         </div>
       </div>

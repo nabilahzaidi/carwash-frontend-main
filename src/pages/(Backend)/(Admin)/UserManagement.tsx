@@ -19,9 +19,10 @@ import {
 import { EllipsisVertical } from 'lucide-react';
 import { Image } from 'antd';
 import Search from '@/components/ui/Search';
-import { useGetAllUserinfoQuery } from '@/redux/features/auths/authApi';
+import { useGetAllUserinfoQuery, useDeleteUserMutation } from '@/redux/features/auths/authApi';
 import ChangeRoleModal from '../Components/ChangeRoleModal';
 import Loading from '@/components/shared/Loading';
+import { toast } from 'sonner';
 
 
 
@@ -37,6 +38,7 @@ const UserManagement = () => {
   const {data:userDatas ,isLoading}= useGetAllUserinfoQuery(filters)
   const [isModalOpen, setIsModalOpen] = useState(false);
    const [editUserData, setServiceData] = useState(null);
+   const [deleteUser] = useDeleteUserMutation();
 
   const openModal = (data:any) => {
     setServiceData(data)
@@ -45,6 +47,19 @@ const UserManagement = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        const res = await deleteUser(userId);
+        if (res?.data?.success) {
+          toast.success(res?.data?.message, { duration: 2000 });
+        }
+      } catch (error) {
+        toast.error('Failed to delete user', { duration: 2000 });
+      }
+    }
   };
 
   if (isLoading) {
@@ -83,6 +98,7 @@ const UserManagement = () => {
                 <TableHead>User Name</TableHead>
                 <TableHead>Contact Info</TableHead>
                 <TableHead className="text-right">Role</TableHead>
+                <TableHead className="text-center">Status</TableHead>
                 <TableHead className="w-[100px]">Action</TableHead>
               </TableRow>
             }
@@ -107,6 +123,11 @@ const UserManagement = () => {
                   <p className="text-sm">0{usData.phone}</p>
                 </TableCell>
                 <TableCell className="text-right">{usData.role}</TableCell>
+                <TableCell className="text-center">
+                  <span className={`px-2 py-1 rounded ${usData.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {usData.status || 'active'}
+                  </span>
+                </TableCell>
                 <TableCell className="font-medium  text-right ">
                   <DropdownMenu>
                     <DropdownMenuTrigger>
@@ -118,7 +139,9 @@ const UserManagement = () => {
                       <DropdownMenuItem onClick={()=>openModal(usData)}>
                         Change user role
                       </DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDeleteUser(usData._id)} className="text-red-600">
+                        Delete
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                  

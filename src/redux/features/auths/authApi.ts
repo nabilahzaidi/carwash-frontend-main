@@ -74,6 +74,14 @@ endpoints:(builder)=>({
         }),
         invalidatesTags: ['auth'],
       }),
+
+    deleteUser: builder.mutation({
+        query: (userId) => ({
+          url: `/auth/user/${userId}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: ['auth'],
+      }),
   
 }),
 
@@ -87,5 +95,6 @@ export const {
    useGetUserinfoQuery,
    useGetAllUserinfoQuery,
    useUpdateUserRoleMutation,
-   useUpdateUserInfoMutation
+   useUpdateUserInfoMutation,
+   useDeleteUserMutation
 } = authApi;

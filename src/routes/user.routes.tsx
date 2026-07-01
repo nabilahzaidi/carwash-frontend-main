@@ -1,5 +1,6 @@
-import PastBookings from "@/pages/(Backend)/(User)/PastBookings";
+import Bookings from "@/pages/(Backend)/(User)/Bookings";
 import Profile from "@/pages/(Backend)/(User)/Profile";
+import UpcomingBookings from "@/pages/(Backend)/(User)/UpcomingBookings";
 import UserDashboard from "@/pages/(Backend)/(User)/UserDashboard";
 
 export const userPaths =[
@@ -11,7 +12,7 @@ export const userPaths =[
     {
         name:"Up Coming Booking",
         path:'up-coming-booking',
-        element:<UserDashboard/>
+        element:<UpcomingBookings/>
     },
     {
         name:"Profile",
@@ -19,9 +20,9 @@ export const userPaths =[
         element:<Profile/>
     },
     {
-        name:"Past Booking",
-        path:'past-booking',
-        element:<PastBookings/>
+        name:"Booking",
+        path:'booking',
+        element:<Bookings/>
     },
   
 ]

@@ -14,7 +14,7 @@ import { useGetMyBookingsQuery } from '@/redux/features/bookings/BookingApi';
 import Empty from '@/components/shared/Empty';
 
 
-const PastBookings = () => {
+const Bookings = () => {
  
 
   const {data:usersBookings}= useGetMyBookingsQuery(undefined)
@@ -26,7 +26,7 @@ const PastBookings = () => {
   return (
     <div>
       <div className="flex justify-between">
-        <h3 className="text-2xl font-bold">Past Bookings </h3>
+        <h3 className="text-2xl font-bold">Bookings </h3>
        
       </div>
 {/* //service table */}
@@ -97,10 +97,10 @@ const PastBookings = () => {
             </TableBody>
           </Table>
          
-        </div> : <Empty text='Past Booking slot Empty'/>
+        </div> : <Empty text='Booking slot Empty'/>
       }
     </div>
   );
 };
 
-export default PastBookings;
+export default Bookings;

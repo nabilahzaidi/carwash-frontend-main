@@ -133,7 +133,7 @@ const CustomerSupport = () => {
             <span className="rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">Online</span>
           </div>
 
-          <div className="min-h-[360px] rounded-3xl border border-border/70 bg-[#f9fafb]/80 p-4 dark:bg-slate-900/70">
+          <div className="min-h-[360px] rounded-3xl border border-blue-200/50 bg-blue-50/40 p-4 dark:bg-slate-900/30 dark:border-blue-900/30">
             {activeThread && activeThread.messages.length > 0 ? (
               <div className="flex h-full flex-col gap-3">
                 {activeThread.messages.map((message) => (
@@ -141,8 +141,8 @@ const CustomerSupport = () => {
                     key={message.id}
                     className={`max-w-[85%] rounded-3xl px-4 py-3 text-sm shadow-sm ${
                       message.sender === 'customer'
-                        ? 'ml-auto bg-primary text-white'
-                        : 'mr-auto border border-border bg-white text-foreground dark:bg-slate-800'
+                        ? 'ml-auto bg-blue-400 text-white'
+                        : 'mr-auto bg-blue-100 text-slate-900 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-100 dark:border-blue-700/50'
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{message.content}</p>
@@ -153,7 +153,7 @@ const CustomerSupport = () => {
                 ))}
               </div>
             ) : (
-              <div className="flex h-full items-center justify-center rounded-3xl border border-dashed border-primary/40 bg-primary/5 p-6 text-center text-sm text-muted-foreground">
+              <div className="flex h-full items-center justify-center rounded-3xl border border-dashed border-blue-300 bg-blue-50/50 p-6 text-center text-sm text-blue-600 dark:bg-blue-900/20 dark:border-blue-700 dark:text-blue-300">
                 No messages yet. Start the conversation and the admin reply will appear here.
               </div>
             )}
@@ -162,7 +162,7 @@ const CustomerSupport = () => {
           <div className="mt-4 space-y-3">
             <textarea
               id="support-message"
-              className="min-h-[130px] w-full rounded-3xl border border-input bg-[#f9fafb]/80 px-4 py-4 text-base text-slate-900 outline-none transition focus:border-primary/80 focus:ring-2 focus:ring-primary/20 dark:bg-slate-900 dark:text-white dark:border-slate-700"
+              className="min-h-[130px] w-full rounded-3xl border border-blue-200 bg-blue-50/60 px-4 py-4 text-base text-slate-900 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 dark:bg-slate-900 dark:text-white dark:border-blue-800 dark:focus:border-blue-600 dark:focus:ring-blue-900/50"
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Type your question or issue here..."

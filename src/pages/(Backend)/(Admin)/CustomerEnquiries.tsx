@@ -112,40 +112,77 @@ const CustomerEnquiries = () => {
     setReplyDrafts((prev) => ({ ...prev, [id]: '' }));
   };
 
+  const handleDeleteThread = (id: string) => {
+    const updated = threads.filter((thread) => thread.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    setThreads(updated);
+  };
+
+  const handleClearAll = () => {
+    if (window.confirm('Are you sure you want to delete all customer enquiries? This action cannot be undone.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      setThreads([]);
+      setReplyDrafts({});
+    }
+  };
+
   return (
     <div className="space-y-8 py-8">
-      <div className="rounded-3xl border border-border bg-background/80 p-8 shadow-xl shadow-primary/10">
-        <h1 className="text-4xl font-bold text-foreground">Customer Enquiries</h1>
-        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-          Review support conversations and reply directly from this dashboard.
-        </p>
+      <div className="rounded-3xl border border-blue-200 bg-blue-50/50 p-8 shadow-xl shadow-blue-200/20 dark:bg-blue-900/10 dark:border-blue-800">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-slate-900 dark:text-white">Customer Enquiries</h1>
+            <p className="mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
+              Review support conversations and reply directly from this dashboard.
+            </p>
+          </div>
+          {threads.length > 0 && (
+            <button
+              type="button"
+              onClick={handleClearAll}
+              className="inline-flex items-center justify-center rounded-full bg-red-500 px-6 py-3 text-white transition hover:bg-red-600"
+            >
+              Clear All
+            </button>
+          )}
+        </div>
       </div>
 
       {threads.length === 0 ? (
-        <div className="rounded-3xl border border-border bg-background/90 p-10 text-center text-muted-foreground shadow-lg shadow-primary/5">
-          <p className="text-xl font-semibold text-foreground">No customer conversations yet.</p>
+        <div className="rounded-3xl border border-blue-200 bg-blue-50/40 p-10 text-center text-blue-600 shadow-lg shadow-blue-200/20 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300">
+          <p className="text-xl font-semibold">No customer conversations yet.</p>
           <p className="mt-3">Once a customer sends a message, it will appear here for an admin reply.</p>
         </div>
       ) : (
         <div className="grid gap-8">
           {threads.map((thread) => (
-            <div key={thread.id} className="rounded-3xl border border-border bg-background/90 p-8 shadow-lg shadow-primary/5">
+            <div key={thread.id} className="rounded-3xl border border-blue-200 bg-white/60 p-8 shadow-lg shadow-blue-200/20 dark:bg-slate-900/50 dark:border-blue-800">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">Last updated:</p>
-                  <p className="text-sm text-foreground">{new Date(thread.updatedAt).toLocaleString()}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Last updated:</p>
+                  <p className="text-sm text-slate-900 dark:text-white">{new Date(thread.updatedAt).toLocaleString()}</p>
                 </div>
-                <span className="rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">Support chat</span>
+                <div className="flex gap-3">
+                  <span className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">Support chat</span>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteThread(thread.id)}
+                    className="inline-flex items-center justify-center rounded-full bg-red-100 px-3 py-1 text-sm text-red-600 transition hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
+                    title="Delete this enquiry"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
 
-              <div className="mt-6 space-y-3 rounded-3xl border border-border/60 bg-[#f9fafb]/80 p-4 dark:bg-slate-900/70">
+              <div className="mt-6 space-y-3 rounded-3xl border border-blue-200/60 bg-blue-50/50 p-4 dark:bg-slate-900/30 dark:border-blue-800/40">
                 {thread.messages.map((message) => (
                   <div
                     key={message.id}
                     className={`max-w-[85%] rounded-3xl px-4 py-3 text-sm shadow-sm ${
                       message.sender === 'admin'
-                        ? 'ml-auto bg-primary text-white'
-                        : 'mr-auto border border-border bg-white text-foreground dark:bg-slate-800'
+                        ? 'ml-auto bg-blue-400 text-white'
+                        : 'mr-auto bg-blue-100 text-slate-900 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-100 dark:border-blue-700/50'
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{message.content}</p>
@@ -158,11 +195,11 @@ const CustomerEnquiries = () => {
 
               <div className="mt-6 space-y-4">
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-foreground">Admin reply</p>
+                  <p className="mb-2 text-sm font-semibold text-slate-900 dark:text-white">Admin reply</p>
                   <textarea
                     value={replyDrafts[thread.id] ?? ''}
                     onChange={(e) => handleReplyChange(thread.id, e.target.value)}
-                    className="min-h-[160px] w-full rounded-3xl border border-input bg-[#f7f7f8] px-4 py-4 text-base text-slate-900 outline-none transition focus:border-primary/80 focus:ring-2 focus:ring-primary/20 dark:bg-slate-900 dark:text-white"
+                    className="min-h-[160px] w-full rounded-3xl border border-blue-200 bg-blue-50/60 px-4 py-4 text-base text-slate-900 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-200/50 dark:bg-slate-900 dark:text-white dark:border-blue-800 dark:focus:border-blue-600 dark:focus:ring-blue-900/50"
                     placeholder="Write your answer here..."
                   />
                 </div>

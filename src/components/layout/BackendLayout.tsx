@@ -79,7 +79,7 @@ const BackendLayout: React.FC = () => {
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-         Car Wash ©{new Date().getFullYear()} Created by Ashiq
+         Car Wash ©{new Date().getFullYear()} Created by Luqman.
          <ScrollTop/>
         </Footer>
       </Layout>

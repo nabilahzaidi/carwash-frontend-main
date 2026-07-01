@@ -24,12 +24,12 @@ const Footer = () => {
               <h3 className="text-3xl  font-bold">Contact Us</h3>
               <div className="space-y-1">
                 <p>
-                  <span className="font-bold">Phone:</span> 202-687-5255
+                  <span className="font-bold">Phone:</span> 017-504-8284
                 </p>
                 <p>
                   <span className="font-bold">Email:</span> info@carwash.com
                 </p>
-                <p> Dhaka,Bangladesh</p>
+                <p> Alor Setar,Kedah</p>
               </div>
               <div className="flex">
                 <Iconbg icon={<Facebook />} />

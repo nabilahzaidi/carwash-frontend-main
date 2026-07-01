@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { jsPDF } from 'jspdf';
+import { toast } from 'sonner';
 import {
   Table,
   TableBody,
@@ -19,6 +21,11 @@ import Loading from '@/components/shared/Loading';
 type TUserFilterValue = {
   searchTerm: String;
 };
+
+type TPaymentDraft = {
+  paymentStatus: string;
+};
+
 const RecentBookings = () => {
   const initialFilterValues: TUserFilterValue = {
     searchTerm: '',
@@ -26,43 +33,46 @@ const RecentBookings = () => {
   const [filters, setFilters] = useState<TUserFilterValue>(initialFilterValues);
   const { data: bookingDatas, isLoading } = useGetBookingsQuery(filters);
   const [updateBooking] = useUpdateBookingMutation();
+  const [paymentDrafts, setPaymentDrafts] = useState<Record<string, TPaymentDraft>>({});
 
   if (isLoading) {
     return <><Loading/></>;
   }
 
-  const formatCsvValue = (value: any) => {
-    if (value === null || value === undefined) return '';
-    return String(value).replace(/"/g, '""');
+  const formatPdfValue = (value: any) => {
+    if (value === null || value === undefined || value === '') return 'N/A';
+    return String(value);
   };
 
   const handleDownloadReport = (booking: any) => {
-    const csvRows = [
-      ['Booking ID', 'Customer Name', 'Customer Email', 'Customer Phone', 'Service', 'Slot Date', 'Slot Time', 'Status', 'Payment Status', 'Transaction ID'],
-      [
-        formatCsvValue(booking._id),
-        formatCsvValue(booking.customer?.name),
-        formatCsvValue(booking.customer?.email),
-        formatCsvValue(booking.customer?.phone),
-        formatCsvValue(booking.service?.name),
-        formatCsvValue(booking.slot?.date),
-        formatCsvValue(`${booking.slot?.startTime || ''} - ${booking.slot?.endTime || ''}`),
-        formatCsvValue(booking.status || 'Pending'),
-        formatCsvValue(booking.paymentStatus ?? booking.payment?.status ?? ''),
-        formatCsvValue(booking.transactionId),
-      ],
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text(`Booking Report - ${formatPdfValue(booking._id)}`, 14, 20);
+
+    doc.setFontSize(11);
+    const rows = [
+      ['Booking ID', formatPdfValue(booking._id)],
+      ['Customer Name', formatPdfValue(booking.customer?.name)],
+      ['Customer Email', formatPdfValue(booking.customer?.email)],
+      ['Customer Phone', formatPdfValue(booking.customer?.phone)],
+      ['Service', formatPdfValue(booking.service?.name)],
+      ['Slot Date', formatPdfValue(booking.slot?.date)],
+      ['Slot Time', formatPdfValue(`${booking.slot?.startTime || ''} - ${booking.slot?.endTime || ''}`)],
+      ['Status', formatPdfValue(booking.status || 'Pending')],
+      ['Payment Status', formatPdfValue(booking.paymentStatus ?? booking.payment?.status ?? '')],
+      ['Transaction ID', formatPdfValue(booking.transactionId)],
     ];
 
-    const csvContent = csvRows.map((row) => row.map((field) => `"${field}"`).join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `booking-report-${booking._id}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    let y = 40;
+    rows.forEach(([label, value]) => {
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${label}:`, 14, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), 60, y);
+      y += 8;
+    });
+
+    doc.save(`booking-report-${booking._id}.pdf`);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,6 +83,33 @@ const RecentBookings = () => {
       searchTerm: value,
     }));
   };
+
+  const handlePaymentDraftChange = (bookingId: string, value: string) => {
+    setPaymentDrafts((prev) => ({
+      ...prev,
+      [bookingId]: {
+        paymentStatus: value,
+      },
+    }));
+  };
+
+  const handleSavePayment = async (booking: any) => {
+    const draft = paymentDrafts[booking._id] ?? {
+      paymentStatus: booking.paymentStatus ?? booking.payment?.status ?? 'Pending',
+    };
+
+    try {
+      await updateBooking({
+        id: booking._id,
+        paymentStatus: draft.paymentStatus,
+        transactionId: booking.transactionId ?? '',
+      }).unwrap();
+      toast.success('Payment details updated successfully.');
+    } catch {
+      toast.error('Failed to update payment details.');
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between">
@@ -158,10 +195,27 @@ const RecentBookings = () => {
                   </button>
                 </TableCell>
                 <TableCell className="">
-                  <p className="p-2 bg-button-gradient w-fit text-right  rounded-lg text-white">
-                    {booked.paymentStatus ?? booked.payment?.status ?? 'Pending'}
-                  </p>
-                  <p>{booked.transactionId}</p>
+                  <div className="space-y-2">
+                    <select
+                      value={paymentDrafts[booked._id]?.paymentStatus ?? booked.paymentStatus ?? booked.payment?.status ?? 'Pending'}
+                      onChange={(e) => handlePaymentDraftChange(booked._id, e.target.value)}
+                      className="w-full rounded border px-2 py-1 text-sm"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Paid">Paid</option>
+                      <option value="Failed">Failed</option>
+                    </select>
+                    <div className="rounded border bg-slate-50 px-2 py-1 text-sm text-slate-600">
+                      {booked.transactionId || 'No transaction ID'}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleSavePayment(booked)}
+                      className="px-3 py-1 bg-green-600 text-white rounded"
+                    >
+                      Save
+                    </button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
