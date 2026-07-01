@@ -48,7 +48,7 @@ const RecentBookings = () => {
         formatCsvValue(booking.slot?.date),
         formatCsvValue(`${booking.slot?.startTime || ''} - ${booking.slot?.endTime || ''}`),
         formatCsvValue(booking.status || 'Pending'),
-        formatCsvValue(booking.paymentStatus),
+        formatCsvValue(booking.paymentStatus ?? booking.payment?.status ?? ''),
         formatCsvValue(booking.transactionId),
       ],
     ];
@@ -159,7 +159,7 @@ const RecentBookings = () => {
                 </TableCell>
                 <TableCell className="">
                   <p className="p-2 bg-button-gradient w-fit text-right  rounded-lg text-white">
-                    {booked.paymentStatus}
+                    {booked.paymentStatus ?? booked.payment?.status ?? 'Pending'}
                   </p>
                   <p>{booked.transactionId}</p>
                 </TableCell>

@@ -89,7 +89,7 @@ const PastBookings = () => {
                     {slots?.slot?.isBooked}
                   </TableCell>
                   <TableCell className="text-right">
-                 {slots.paymentStatus}
+                 {slots.paymentStatus ?? slots.payment?.status ?? 'Pending'}
                   </TableCell>
                  
                 </TableRow>

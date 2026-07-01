@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/table';
 import { useGetUserinfoQuery } from '@/redux/features/auths/authApi';
 import { useCurrentToken } from '@/redux/features/auths/authSlice';
-import { useInitiateQuickPaymentMutation } from '@/redux/features/bookings/BookingApi';
+import { useAddBookingMutation } from '@/redux/features/bookings/BookingApi';
 import { useAppSelector } from '@/redux/hook';
 import { verifyToken } from '@/utils/verifyToken';
 import { Image } from 'antd';
@@ -38,8 +38,9 @@ const Booking = () => {
   const [selectedBooking, setSelectedBooking] = useState(initialBookingData);
   const bookedService = selectedBooking?.service;
   const bookedSlot = selectedBooking?.slot;
-  const [initiateQuickPayment] = useInitiateQuickPaymentMutation();
+  
 
+  const [addBooking] = useAddBookingMutation();
   const token = useAppSelector(useCurrentToken);
   let user;
   if (token) {
@@ -62,29 +63,28 @@ const Booking = () => {
       return;
     }
 
-    const paymentData = {
-      transactionId: `txn-${Date.now()}`,
-      totalPrice: bookedService.price,
-      customerName: data.name || userInfo?.name,
-      customerEmail: data.email || userInfo?.email,
-      customerPhone: data.phone || userInfo?.phone,
-      customerAddress: userInfo?.address || 'N/A',
+    const bookingPayload = {
+      serviceId: bookedService?._id,
+      slotId: bookedSlot?._id,
+      vehicleType: data.vehicleType,
+      registrationPlate: data.registrationPlate,
     };
 
     try {
-      const res = await initiateQuickPayment(paymentData).unwrap();
-      if (res.success) {
-        toast.success(res.message);
-        if (res.data?.payment_url) {
-          window.location.href = res.data.payment_url;
-        } else {
-          toast.error('Payment URL not returned from the server.');
-        }
-      } else {
-        toast.error(res.message || 'Payment initialization failed.');
-      }
+      const res = await addBooking(bookingPayload).unwrap();
+      const createdBooking = res.data;
+      toast.success('Booking created. Proceed to payment.');
+      const paymentData = {
+        transactionId: `txn-${Date.now()}`,
+        totalPrice: bookedService.price,
+        customerName: data.name || userInfo?.name,
+        customerEmail: data.email || userInfo?.email,
+        customerPhone: data.phone || userInfo?.phone,
+        customerAddress: userInfo?.address || 'N/A',
+      };
+      navigate('/transaction', { state: { booking: createdBooking, paymentData } });
     } catch (err: any) {
-      toast.error(err?.data?.message || err?.message || 'Payment initiation failed.');
+      toast.error(err?.data?.message || err?.message || 'Booking creation failed.');
     }
   };
 
@@ -218,10 +218,10 @@ const Booking = () => {
                     options={vehicleTypeOptions}
                   />
                   <p className="p-2 bg-slate-50 rounded-sm mb-6">
-                    Selected Time Slot: 09:00-10:00
+                    Selected Time Slot: {bookedSlot?.date} {bookedSlot?.startTime} - {bookedSlot?.endTime}
                   </p>
                   <Button className="text-white" type="submit">
-                    Pay Now
+                    Book and Pay
                   </Button>
                 </CRForm>
               </div>

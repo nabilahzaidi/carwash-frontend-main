@@ -116,7 +116,7 @@ const UserDashboard = () => {
 
                 <div className="flex justify-between text-sm text-slate-600">
                   <span>Status: {booked.status || booked.slot.isBooked || 'Unknown'}</span>
-                  <span>Paid: {booked.paymentStatus ?? 'Pending'}</span>
+                  <span>Paid: {booked.paymentStatus ?? booked.payment?.status ?? 'Pending'}</span>
                 </div>
               </div>
             ))}
