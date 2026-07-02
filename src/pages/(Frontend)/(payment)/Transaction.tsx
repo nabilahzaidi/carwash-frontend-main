@@ -52,6 +52,8 @@ const Transaction = () => {
     const lastDigit = parseInt(cardNumber[cardNumber.length - 1], 10);
     const success = lastDigit % 2 === 0;
     const paymentStatus = success ? 'paid' : 'failed';
+    
+    console.log('Last digit:', lastDigit, 'Is even?:', success, 'Status:', paymentStatus);
 
     const resultState = {
       paymentData,
@@ -68,14 +70,14 @@ const Transaction = () => {
           transactionId: paymentData?.transactionId,
         }).unwrap();
       }
-
-      if (success) {
-        navigate('/payment-success', { state: resultState });
-      } else {
-        navigate('/payment-failed', { state: resultState });
-      }
     } catch (error: any) {
       toast.error(error?.data?.message || 'Could not update booking payment status.');
+    }
+
+    // Always navigate based on card logic, regardless of booking update success
+    if (success) {
+      navigate('/payment-success', { state: resultState });
+    } else {
       navigate('/payment-failed', { state: resultState });
     }
   };
